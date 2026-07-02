@@ -1,0 +1,235 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PeakMode — SleepTracker.css
+   ──────────────────────────────
+   Compact reusable widget card. Defines its own local tokens scoped to
+   .st-card so it can be dropped into Dashboard or any other page without
+   depending on that page's specific CSS variables being in scope.
+
+   Tokens mirror the app-wide dark theme:
+     bg-card    #1E293B   (slate-800)
+     bg-base    #0F172A   (slate-900)
+     accent     #3B82F6   (blue-500) — used sparingly, sleep bars are purple
+     purple     #A855F7   — sleep-specific accent (matches Schedule timeline)
+═══════════════════════════════════════════════════════════════════════════ */
+
+.st-card {
+  --st-bg-card:   #1E293B;
+  --st-bg-base:   #0F172A;
+  --st-purple:    #A855F7;
+  --st-text-hi:   #F1F5F9;
+  --st-text-lo:   #94A3B8;
+  --st-text-mute: #475569;
+  --st-border:    rgba(255, 255, 255, 0.07);
+
+  background: var(--st-bg-card);
+  border: 1px solid var(--st-border);
+  border-radius: 16px;
+  padding: 18px 18px 16px;
+  max-width: 340px;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Title ────────────────────────────────────────────────────────────────── */
+.st-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: var(--st-text-hi);
+  margin-bottom: 14px;
+}
+
+/* ── Quick-log form ───────────────────────────────────────────────────────── */
+.st-log-form {
+  margin-bottom: 16px;
+}
+
+.st-error {
+  font-size: 0.72rem;
+  color: #FCA5A5;
+  margin-bottom: 8px;
+}
+
+.st-log-row {
+  display: flex;
+  gap: 6px;
+}
+
+/* ── Hours input ──────────────────────────────────────────────────────────── */
+.st-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--st-bg-base);
+  border: 1px solid var(--st-border);
+  border-radius: 8px;
+  overflow: hidden;
+  flex-shrink: 0;
+  width: 64px;
+  transition: border-color 150ms ease;
+}
+
+.st-input-wrap:focus-within {
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+.st-input {
+  flex: 1;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 7px 0 7px 9px;
+  font-size: 0.82rem;
+  color: var(--st-text-hi);
+  min-width: 0;
+}
+
+.st-input::placeholder { color: var(--st-text-mute); }
+
+.st-unit {
+  padding-right: 8px;
+  font-size: 0.72rem;
+  color: var(--st-text-mute);
+  flex-shrink: 0;
+}
+
+/* ── Quality select ───────────────────────────────────────────────────────── */
+.st-select {
+  flex: 1;
+  min-width: 0;
+  background: var(--st-bg-base);
+  border: 1px solid var(--st-border);
+  border-radius: 8px;
+  padding: 7px 8px;
+  font-size: 0.78rem;
+  color: var(--st-text-hi);
+  outline: none;
+  cursor: pointer;
+  appearance: none;
+  transition: border-color 150ms ease;
+}
+
+.st-select:focus {
+  border-color: rgba(168, 85, 247, 0.5);
+}
+
+.st-select option { background: var(--st-bg-card); }
+
+/* ── Log button ───────────────────────────────────────────────────────────── */
+.st-log-btn {
+  flex-shrink: 0;
+  padding: 7px 12px;
+  background: var(--st-purple);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  transition: background 150ms ease, transform 150ms ease;
+}
+
+.st-log-btn:hover:not(:disabled) {
+  background: #9333EA;
+  transform: translateY(-1px);
+}
+
+.st-log-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MINI BAR CHART
+═══════════════════════════════════════════════════════════════════════════ */
+.st-chart {
+  margin-bottom: 12px;
+}
+
+.st-loading {
+  font-size: 0.78rem;
+  color: var(--st-text-mute);
+  text-align: center;
+  padding: 20px 0;
+}
+
+.st-bars {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 6px;
+  height: 90px;
+}
+
+.st-bar-col {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  flex: 1;
+  height: 100%;
+  gap: 4px;
+}
+
+.st-bar-value {
+  font-size: 0.65rem;
+  font-weight: 600;
+  color: var(--st-text-lo);
+  line-height: 1;
+}
+
+.st-bar-track {
+  flex: 1;
+  width: 100%;
+  max-width: 22px;
+  display: flex;
+  align-items: flex-end;
+  background: var(--st-bg-base);
+  border-radius: 4px;
+  overflow: hidden;
+}
+
+.st-bar-fill {
+  width: 100%;
+  background: linear-gradient(180deg, #C084FC, var(--st-purple));
+  border-radius: 4px 4px 0 0;
+  transition: height 500ms cubic-bezier(0.16, 1, 0.3, 1);
+  min-height: 4px;
+}
+
+.st-bar-fill--empty {
+  background: var(--st-border);
+}
+
+.st-bar-label {
+  font-size: 0.65rem;
+  font-weight: 500;
+  color: var(--st-text-mute);
+  line-height: 1;
+}
+
+.st-bar-label--today {
+  color: var(--st-purple);
+  font-weight: 700;
+}
+
+/* ── Average text ─────────────────────────────────────────────────────────── */
+.st-average {
+  font-size: 0.74rem;
+  color: var(--st-text-lo);
+  text-align: center;
+  padding-top: 10px;
+  border-top: 1px solid var(--st-border);
+}
+
+.st-average strong {
+  color: var(--st-text-hi);
+  font-weight: 700;
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .st-bar-fill,
+  .st-log-btn {
+    transition: none;
+  }
+}
