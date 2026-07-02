@@ -1,0 +1,586 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PeakMode — ProfileSetup.css
+   ──────────────────────────────
+   Standalone page styles — defines its own local tokens scoped to .ps-page
+   so it doesn't depend on Dashboard.css being loaded.
+
+   Tokens match the rest of the app:
+     bg-page    #0F172A
+     bg-card    #1E293B
+     accent     #3B82F6
+
+   Signature: 3-step progress stepper at top, each step's card slides in
+   from the right (forward) or left (back) depending on navigation direction.
+═══════════════════════════════════════════════════════════════════════════ */
+
+.ps-page {
+  --ps-bg:        #0F172A;
+  --ps-card:      #1E293B;
+  --ps-card-hover:#273449;
+  --ps-accent:    #3B82F6;
+  --ps-accent-dim:#2563EB;
+  --ps-green:     #22C55E;
+  --ps-text-hi:   #F1F5F9;
+  --ps-text-lo:   #94A3B8;
+  --ps-text-mute: #475569;
+  --ps-border:    rgba(255, 255, 255, 0.07);
+
+  position: relative;
+  min-height: 100vh;
+  background: var(--ps-bg);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 32px 20px;
+  overflow: hidden;
+  font-family: 'Inter', sans-serif;
+}
+
+/* ── Ambient orbs ─────────────────────────────────────────────────────────── */
+.ps-orb {
+  position: absolute;
+  border-radius: 50%;
+  filter: blur(90px);
+  pointer-events: none;
+  z-index: 0;
+}
+.ps-orb--blue {
+  width: 480px; height: 480px;
+  background: radial-gradient(circle, rgba(59, 130, 246, 0.16) 0%, transparent 70%);
+  top: -140px; right: -120px;
+}
+.ps-orb--green {
+  width: 360px; height: 360px;
+  background: radial-gradient(circle, rgba(34, 197, 94, 0.10) 0%, transparent 70%);
+  bottom: -100px; left: -100px;
+}
+
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+.ps-shell {
+  position: relative;
+  z-index: 1;
+  width: 100%;
+  max-width: 540px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.ps-header { text-align: center; }
+
+.ps-brand {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ps-text-hi);
+  margin-bottom: 14px;
+}
+
+.ps-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.6rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--ps-text-hi);
+  margin-bottom: 6px;
+}
+
+.ps-subtitle {
+  font-size: 0.9rem;
+  color: var(--ps-text-lo);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   STEPPER
+═══════════════════════════════════════════════════════════════════════════ */
+.ps-stepper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+}
+
+.ps-step {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 6px;
+}
+
+.ps-step__dot {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  color: var(--ps-text-mute);
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.8rem;
+  font-weight: 700;
+  transition: all 200ms ease;
+}
+
+.ps-step--active .ps-step__dot {
+  border-color: var(--ps-accent);
+  color: var(--ps-accent);
+  box-shadow: 0 0 0 4px rgba(59, 130, 246, 0.12);
+}
+
+.ps-step--done .ps-step__dot {
+  background: var(--ps-green);
+  border-color: var(--ps-green);
+  color: #fff;
+}
+
+.ps-step__label {
+  font-size: 0.68rem;
+  font-weight: 600;
+  color: var(--ps-text-mute);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.ps-step--active .ps-step__label { color: var(--ps-text-hi); }
+.ps-step--done   .ps-step__label { color: var(--ps-green); }
+
+.ps-step__connector {
+  width: 36px;
+  height: 2px;
+  background: var(--ps-border);
+  margin: 0 2px;
+  margin-bottom: 20px;
+  transition: background 200ms ease;
+}
+
+.ps-step__connector--done {
+  background: var(--ps-green);
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   CARD
+═══════════════════════════════════════════════════════════════════════════ */
+.ps-card {
+  background: var(--ps-card);
+  border: 1px solid var(--ps-border);
+  border-radius: 18px;
+  padding: 28px;
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.06),
+    0 12px 36px rgba(0, 0, 0, 0.4);
+  animation: ps-card-in 280ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+}
+
+@keyframes ps-card-in {
+  from { opacity: 0; transform: translateX(20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+.ps-card--back {
+  animation-name: ps-card-in-back;
+}
+@keyframes ps-card-in-back {
+  from { opacity: 0; transform: translateX(-20px); }
+  to   { opacity: 1; transform: translateX(0); }
+}
+
+@media (max-width: 480px) {
+  .ps-card { padding: 20px; border-radius: 14px; }
+}
+
+/* ── Error banner ─────────────────────────────────────────────────────────── */
+.ps-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.85rem;
+  color: #FCA5A5;
+  margin-bottom: 18px;
+}
+
+/* ── Card heading (icon + title + desc) ──────────────────────────────────── */
+.ps-card-heading {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  margin-bottom: 22px;
+}
+
+.ps-card-heading__icon {
+  font-size: 1.8rem;
+  line-height: 1;
+}
+
+.ps-card-heading__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.15rem;
+  font-weight: 700;
+  color: var(--ps-text-hi);
+  margin-bottom: 3px;
+}
+
+.ps-card-heading__desc {
+  font-size: 0.82rem;
+  color: var(--ps-text-lo);
+}
+
+/* ── Fields ───────────────────────────────────────────────────────────────── */
+.ps-fields {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.ps-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.ps-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px;
+}
+
+@media (max-width: 420px) {
+  .ps-row { grid-template-columns: 1fr; }
+}
+
+.ps-label {
+  font-size: 0.76rem;
+  font-weight: 600;
+  color: var(--ps-text-lo);
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.ps-hint {
+  font-size: 0.72rem;
+  color: var(--ps-text-mute);
+}
+
+/* ── Input ────────────────────────────────────────────────────────────────── */
+.ps-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--ps-bg);
+  border: 1px solid var(--ps-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.ps-input-wrap:focus-within {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.ps-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-size: 0.9rem;
+  color: var(--ps-text-hi);
+  min-width: 0;
+}
+
+.ps-input::placeholder { color: var(--ps-text-mute); }
+.ps-input--prefixed { padding-left: 4px; }
+
+.ps-unit {
+  padding: 0 12px;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--ps-text-mute);
+  flex-shrink: 0;
+}
+
+.ps-unit--prefix {
+  padding: 0 4px 0 12px;
+  color: var(--ps-text-lo);
+  font-size: 0.92rem;
+}
+
+/* ── BMI hint card (step 1) ──────────────────────────────────────────────── */
+.ps-bmi {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 12px 16px;
+  border-radius: 10px;
+  background: var(--ps-bg);
+  border: 1px solid var(--ps-border);
+}
+
+.ps-bmi__label {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: var(--ps-text-mute);
+  text-transform: uppercase;
+}
+
+.ps-bmi__value {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ps-text-hi);
+}
+
+.ps-bmi__band {
+  font-size: 0.78rem;
+  font-weight: 600;
+  margin-left: auto;
+}
+
+.ps-bmi--under   .ps-bmi__band { color: #FDE047; }
+.ps-bmi--healthy .ps-bmi__band { color: #4ADE80; }
+.ps-bmi--over    .ps-bmi__band { color: #FB923C; }
+.ps-bmi--obese   .ps-bmi__band { color: #F87171; }
+
+/* ── Fitness goal tiles ───────────────────────────────────────────────────── */
+.ps-goal-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 480px) {
+  .ps-goal-grid { grid-template-columns: repeat(2, 1fr); }
+}
+
+.ps-goal-tile {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 8px;
+  background: var(--ps-bg);
+  border: 1px solid var(--ps-border);
+  border-radius: 12px;
+  cursor: pointer;
+  text-align: center;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.ps-goal-tile:hover {
+  background: var(--ps-card-hover);
+  transform: translateY(-1px);
+}
+
+.ps-goal-tile--active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--ps-accent);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.ps-goal-tile__emoji { font-size: 1.4rem; }
+
+.ps-goal-tile__label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ps-text-hi);
+}
+
+.ps-goal-tile__desc {
+  font-size: 0.64rem;
+  color: var(--ps-text-mute);
+  line-height: 1.3;
+}
+
+/* ── Gym days selector ────────────────────────────────────────────────────── */
+.ps-days {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 8px;
+}
+
+@media (max-width: 420px) {
+  .ps-days { grid-template-columns: repeat(3, 1fr); }
+}
+
+.ps-day {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 12px 4px;
+  background: var(--ps-bg);
+  border: 1px solid var(--ps-border);
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background 150ms ease, border-color 150ms ease, transform 150ms ease;
+}
+
+.ps-day:hover {
+  background: var(--ps-card-hover);
+  transform: translateY(-1px);
+}
+
+.ps-day--active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--ps-accent);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.ps-day__num {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: var(--ps-text-hi);
+}
+
+.ps-day--active .ps-day__num { color: var(--ps-accent); }
+
+.ps-day__word {
+  font-size: 0.62rem;
+  color: var(--ps-text-mute);
+  text-transform: uppercase;
+}
+
+.ps-schedule-hint {
+  font-size: 0.78rem;
+  color: var(--ps-text-lo);
+  line-height: 1.5;
+  padding: 10px 14px;
+  background: rgba(59, 130, 246, 0.06);
+  border-radius: 8px;
+  border-left: 2px solid var(--ps-accent);
+}
+
+/* ── Summary box (step 3) ─────────────────────────────────────────────────── */
+.ps-summary {
+  background: var(--ps-bg);
+  border: 1px solid var(--ps-border);
+  border-radius: 12px;
+  padding: 16px;
+}
+
+.ps-summary__title {
+  font-size: 0.72rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+  color: var(--ps-text-mute);
+  margin-bottom: 10px;
+}
+
+.ps-summary__grid {
+  display: grid;
+  grid-template-columns: auto 1fr;
+  gap: 6px 14px;
+  margin: 0;
+}
+
+.ps-summary__grid dt {
+  font-size: 0.78rem;
+  color: var(--ps-text-mute);
+}
+
+.ps-summary__grid dd {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--ps-text-hi);
+  text-align: right;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ACTIONS
+═══════════════════════════════════════════════════════════════════════════ */
+.ps-actions {
+  display: flex;
+  gap: 10px;
+  margin-top: 26px;
+}
+
+.ps-btn {
+  flex: 1;
+  padding: 12px;
+  border-radius: 11px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  border: none;
+  transition: background 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+
+.ps-btn--ghost {
+  flex: 0 0 110px;
+  background: transparent;
+  border: 1px solid var(--ps-border);
+  color: var(--ps-text-lo);
+}
+
+.ps-btn--ghost:hover:not(:disabled) {
+  background: var(--ps-card-hover);
+  color: var(--ps-text-hi);
+}
+
+.ps-btn--primary {
+  background: var(--ps-accent);
+  color: #fff;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+}
+
+.ps-btn--primary:hover:not(:disabled) {
+  background: var(--ps-accent-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+}
+
+.ps-btn--cta {
+  background: linear-gradient(135deg, var(--ps-accent), #7C3AED);
+}
+
+.ps-btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.ps-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: ps-spin 0.7s linear infinite;
+}
+
+@keyframes ps-spin { to { transform: rotate(360deg); } }
+
+/* ── Footnote ─────────────────────────────────────────────────────────────── */
+.ps-footnote {
+  text-align: center;
+  font-size: 0.72rem;
+  color: var(--ps-text-mute);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .ps-card,
+  .ps-step__dot,
+  .ps-step__connector,
+  .ps-goal-tile,
+  .ps-day,
+  .ps-btn,
+  .ps-spinner {
+    animation: none;
+    transition: none;
+  }
+}
