@@ -1,0 +1,465 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PeakMode — FoodDiary.css
+   ─────────────────────────
+   Tokens (same dark palette as the rest of the app):
+     bg-page    #0F172A
+     bg-card    #1E293B
+     accent     #3B82F6
+     orange     #F97316   (calories)
+     blue       #3B82F6   (protein)
+     green      #4ADE80   (protein met)
+     red        #F87171   (calories exceeded)
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page shell ───────────────────────────────────────────────────────────── */
+.fd-page {
+  padding: 28px 28px 60px;
+  max-width: 800px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+@media (max-width: 600px) {
+  .fd-page { padding: 16px 16px 60px; }
+}
+
+/* ── Header ───────────────────────────────────────────────────────────────── */
+.fd-header {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 12px;
+}
+
+.fd-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.55rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: #F1F5F9;
+  margin: 0 0 4px;
+}
+
+.fd-subtitle {
+  font-size: 0.82rem;
+  color: #64748B;
+  margin: 0;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   MACRO RINGS
+═══════════════════════════════════════════════════════════════════════════ */
+.fd-rings {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 440px) {
+  .fd-rings { grid-template-columns: 1fr 1fr; gap: 10px; }
+}
+
+.fd-ring-card {
+  background: #1E293B;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 22px 16px 18px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  transition: transform 200ms ease, box-shadow 200ms ease;
+}
+.fd-ring-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 12px 32px rgba(0,0,0,0.4);
+}
+
+/* Ring wrapper — SVG sits behind the text */
+.fd-ring {
+  position: relative;
+  width: 110px;
+  height: 110px;
+  flex-shrink: 0;
+}
+
+.fd-ring__svg {
+  position: absolute;
+  inset: 0;
+}
+
+.fd-ring__center {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.fd-ring__val {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.3rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  line-height: 1;
+}
+
+.fd-ring__unit {
+  font-size: 0.65rem;
+  color: #64748B;
+  margin-top: 2px;
+}
+
+.fd-ring__label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #CBD5E1;
+  margin: 4px 0 0;
+  text-align: center;
+}
+
+.fd-ring__sub {
+  font-size: 0.74rem;
+  color: #64748B;
+  text-align: center;
+  margin: 0;
+}
+.fd-ring__sub--over  { color: #F87171; font-weight: 600; }
+.fd-ring__sub--good  { color: #4ADE80; font-weight: 600; }
+
+.fd-ring__target {
+  font-size: 0.68rem;
+  color: #475569;
+  margin: 0;
+  text-align: center;
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   ADD FOOD CARD
+═══════════════════════════════════════════════════════════════════════════ */
+.fd-add-card {
+  background: #1E293B;
+  border: 1px solid rgba(255,255,255,0.07);
+  border-radius: 18px;
+  padding: 22px 20px;
+  box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.fd-add-card__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  margin: 0;
+}
+
+/* Error */
+.fd-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239,68,68,0.1);
+  border: 1px solid rgba(239,68,68,0.25);
+  border-radius: 9px;
+  padding: 9px 13px;
+  font-size: 0.83rem;
+  color: #FCA5A5;
+}
+
+/* Input row: food + qty side by side */
+.fd-add-row {
+  display: grid;
+  grid-template-columns: 1fr 180px;
+  gap: 10px;
+}
+
+@media (max-width: 560px) {
+  .fd-add-row { grid-template-columns: 1fr; }
+}
+
+.fd-input {
+  width: 100%;
+  background: #0F172A;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 11px 14px;
+  font-size: 0.88rem;
+  color: #F1F5F9;
+  outline: none;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+  box-sizing: border-box;
+}
+.fd-input::placeholder { color: #475569; }
+.fd-input:focus {
+  border-color: rgba(59,130,246,0.5);
+  box-shadow: 0 0 0 3px rgba(59,130,246,0.12);
+}
+.fd-input:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* Bottom row: meal selector + submit button */
+.fd-add-bottom {
+  display: flex;
+  gap: 10px;
+  align-items: center;
+}
+
+@media (max-width: 480px) {
+  .fd-add-bottom { flex-direction: column; align-items: stretch; }
+}
+
+.fd-select-wrap {
+  position: relative;
+  flex: 1;
+}
+
+.fd-select {
+  width: 100%;
+  appearance: none;
+  background: #0F172A;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 10px;
+  padding: 11px 36px 11px 14px;
+  font-size: 0.85rem;
+  color: #CBD5E1;
+  outline: none;
+  cursor: pointer;
+  transition: border-color 150ms ease;
+}
+.fd-select:focus { border-color: rgba(59,130,246,0.5); }
+
+.fd-select-arrow {
+  position: absolute;
+  right: 13px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: #475569;
+  pointer-events: none;
+  font-size: 0.75rem;
+}
+
+/* Add button */
+.fd-add-btn {
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #3B82F6, #6366F1);
+  color: #fff;
+  border: none;
+  border-radius: 10px;
+  padding: 11px 22px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  white-space: nowrap;
+  box-shadow: 0 4px 14px rgba(59,130,246,0.35);
+  transition: opacity 150ms ease, transform 150ms ease, box-shadow 150ms ease;
+}
+.fd-add-btn:hover:not(:disabled) {
+  opacity: 0.92;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(59,130,246,0.45);
+}
+.fd-add-btn:disabled { opacity: 0.55; cursor: not-allowed; }
+
+/* Spinner */
+.fd-spinner {
+  display: inline-block;
+  width: 14px;
+  height: 14px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: fd-spin 0.65s linear infinite;
+  flex-shrink: 0;
+}
+.fd-spinner--lg { width: 32px; height: 32px; border-width: 3px; }
+@keyframes fd-spin { to { transform: rotate(360deg); } }
+
+/* AI note */
+.fd-ai-note {
+  font-size: 0.78rem;
+  color: #64748B;
+  text-align: center;
+  margin: 0;
+  animation: fd-pulse 1.5s ease-in-out infinite;
+}
+@keyframes fd-pulse {
+  0%, 100% { opacity: 0.6; }
+  50%       { opacity: 1;   }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   LOG LIST
+═══════════════════════════════════════════════════════════════════════════ */
+.fd-log {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.fd-log__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 700;
+  color: #F1F5F9;
+  margin: 0;
+}
+
+/* Loading */
+.fd-loading {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 40px 0;
+  color: #64748B;
+  font-size: 0.85rem;
+}
+
+/* Empty state */
+.fd-empty {
+  background: #1E293B;
+  border: 1px dashed rgba(255,255,255,0.08);
+  border-radius: 16px;
+  padding: 48px 24px;
+  text-align: center;
+}
+.fd-empty__icon { font-size: 2.8rem; display: block; margin-bottom: 12px; }
+.fd-empty__title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  color: #CBD5E1;
+  margin: 0 0 6px;
+}
+.fd-empty__sub {
+  font-size: 0.82rem;
+  color: #475569;
+  margin: 0;
+}
+
+/* Entries list */
+.fd-entries {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+/* Single entry card */
+.fd-entry {
+  background: #1E293B;
+  border: 1px solid rgba(255,255,255,0.06);
+  border-radius: 13px;
+  padding: 13px 14px;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  transition: background 150ms ease;
+}
+.fd-entry:hover { background: #273449; }
+
+.fd-entry__emoji {
+  font-size: 1.25rem;
+  flex-shrink: 0;
+  width: 28px;
+  text-align: center;
+}
+
+.fd-entry__info {
+  flex: 1;
+  min-width: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+.fd-entry__food {
+  font-size: 0.88rem;
+  font-weight: 600;
+  color: #F1F5F9;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.fd-entry__qty {
+  font-size: 0.73rem;
+  color: #64748B;
+}
+
+.fd-entry__macros {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  gap: 3px;
+  flex-shrink: 0;
+}
+.fd-entry__cal  { font-size: 0.78rem; color: #FB923C; font-weight: 600; }
+.fd-entry__prot { font-size: 0.78rem; color: #60A5FA; font-weight: 600; }
+
+/* Delete button */
+.fd-entry__del {
+  background: transparent;
+  border: none;
+  color: #475569;
+  font-size: 1.2rem;
+  line-height: 1;
+  width: 28px;
+  height: 28px;
+  border-radius: 7px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  flex-shrink: 0;
+  transition: color 150ms ease, background 150ms ease;
+}
+.fd-entry__del:hover:not(:disabled) {
+  color: #F87171;
+  background: rgba(239,68,68,0.12);
+}
+.fd-entry__del:disabled { opacity: 0.4; cursor: not-allowed; }
+
+/* Totals summary row */
+.fd-totals {
+  background: rgba(59,130,246,0.06);
+  border: 1px solid rgba(59,130,246,0.15);
+  border-radius: 12px;
+  padding: 13px 16px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 4px;
+}
+.fd-totals__label {
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #94A3B8;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+.fd-totals__values {
+  display: flex;
+  gap: 16px;
+}
+.fd-totals__cal  { font-size: 0.85rem; font-weight: 700; color: #FB923C; }
+.fd-totals__prot { font-size: 0.85rem; font-weight: 700; color: #60A5FA; }
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fd-ring__svg circle,
+  .fd-spinner,
+  .fd-ai-note,
+  .fd-add-btn,
+  .fd-entry {
+    transition: none;
+    animation: none;
+  }
+}
