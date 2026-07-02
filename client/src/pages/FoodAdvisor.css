@@ -1,0 +1,519 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PeakMode — FoodAdvisor.css
+   ───────────────────────────
+   Inherits .dashboard shell and --db-* tokens from Dashboard.css.
+   All food-advisor-specific styles are prefixed .fa-* to avoid collisions.
+
+   Signature element: the recommendation card slides up from below with a
+   subtle scale — it feels "delivered", not just appearing.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Page wrapper ─────────────────────────────────────────────────────────── */
+.fa-page {
+  padding: 32px 36px;
+  max-width: 720px;
+}
+
+@media (max-width: 768px) {
+  .fa-page { padding: 20px 16px; }
+}
+
+/* ── Page header ──────────────────────────────────────────────────────────── */
+.fa-header {
+  margin-bottom: 28px;
+}
+
+.fa-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.6rem, 3.5vw, 2.25rem);
+  font-weight: 700;
+  letter-spacing: -0.03em;
+  color: var(--db-text-hi);
+  line-height: 1.15;
+  margin-bottom: 6px;
+}
+
+.fa-subtitle {
+  font-size: 0.9375rem;
+  color: var(--db-text-lo);
+}
+
+/* ── Form card ────────────────────────────────────────────────────────────── */
+.fa-form {
+  background: var(--db-sidebar);
+  border: 1px solid var(--db-border);
+  border-radius: 16px;
+  padding: 28px 28px;
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  margin-bottom: 28px;
+}
+
+@media (max-width: 480px) {
+  .fa-form { padding: 20px 16px; }
+}
+
+/* ── Error banner ─────────────────────────────────────────────────────────── */
+.fa-error {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  background: rgba(239, 68, 68, 0.1);
+  border: 1px solid rgba(239, 68, 68, 0.25);
+  border-radius: 10px;
+  padding: 10px 14px;
+  font-size: 0.875rem;
+  color: #FCA5A5;
+}
+
+/* ── Field + label ────────────────────────────────────────────────────────── */
+.fa-field {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.fa-field--indent {
+  padding-left: 16px;
+  border-left: 2px solid rgba(59, 130, 246, 0.25);
+  animation: fa-slide-in 200ms ease;
+}
+
+@keyframes fa-slide-in {
+  from { opacity: 0; transform: translateY(-6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.fa-label {
+  font-size: 0.78rem;
+  font-weight: 600;
+  color: var(--db-text-lo);
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+}
+
+/* ── Two-column row ───────────────────────────────────────────────────────── */
+.fa-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+@media (max-width: 480px) {
+  .fa-row { grid-template-columns: 1fr; }
+}
+
+/* ── Select ───────────────────────────────────────────────────────────────── */
+.fa-select-wrap {
+  position: relative;
+}
+
+.fa-select {
+  width: 100%;
+  appearance: none;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 10px;
+  padding: 10px 36px 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: var(--db-text-hi);
+  outline: none;
+  cursor: pointer;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.fa-select:focus {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.fa-select option { background: #1E293B; }
+
+.fa-select-arrow {
+  position: absolute;
+  right: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--db-text-mute);
+  pointer-events: none;
+  font-size: 0.75rem;
+}
+
+/* ── Number input ─────────────────────────────────────────────────────────── */
+.fa-input-wrap {
+  display: flex;
+  align-items: center;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 10px;
+  overflow: hidden;
+  transition: border-color 150ms ease, box-shadow 150ms ease;
+}
+
+.fa-input-wrap:focus-within {
+  border-color: rgba(59, 130, 246, 0.5);
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.12);
+}
+
+.fa-input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  outline: none;
+  padding: 10px 14px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.9rem;
+  color: var(--db-text-hi);
+  min-width: 0;
+}
+
+.fa-input::placeholder { color: var(--db-text-mute); }
+
+.fa-input--prefixed { padding-left: 4px; }
+
+.fa-unit {
+  padding: 0 12px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--db-text-mute);
+  flex-shrink: 0;
+}
+
+.fa-unit--prefix {
+  padding: 0 4px 0 12px;
+  color: var(--db-text-lo);
+  font-size: 0.95rem;
+}
+
+/* ── Hunger cards ─────────────────────────────────────────────────────────── */
+.fa-hunger-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 10px;
+}
+
+@media (max-width: 400px) {
+  .fa-hunger-grid { grid-template-columns: 1fr; }
+}
+
+.fa-hunger-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  padding: 14px 10px;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 12px;
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    transform 150ms ease;
+  text-align: center;
+}
+
+.fa-hunger-card:hover {
+  background: var(--db-card-hover);
+  border-color: rgba(59, 130, 246, 0.2);
+  transform: translateY(-1px);
+}
+
+.fa-hunger-card--active {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: var(--db-accent);
+  box-shadow: 0 0 0 1px rgba(59, 130, 246, 0.2);
+}
+
+.fa-hunger-card__emoji {
+  font-size: 1.6rem;
+  line-height: 1;
+}
+
+.fa-hunger-card__label {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--db-text-hi);
+}
+
+.fa-hunger-card__desc {
+  font-size: 0.7rem;
+  color: var(--db-text-mute);
+  line-height: 1.3;
+}
+
+/* ── Mess open toggle ─────────────────────────────────────────────────────── */
+.fa-toggle-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 10px;
+}
+
+.fa-toggle-btn {
+  padding: 12px 10px;
+  background: var(--db-bg);
+  border: 1px solid var(--db-border);
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--db-text-lo);
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.fa-toggle-btn--active {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.4);
+  color: #86EFAC;
+}
+
+.fa-toggle-btn--no.fa-toggle-btn--active {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.35);
+  color: #FCA5A5;
+}
+
+/* ── Submit button ────────────────────────────────────────────────────────── */
+.fa-submit {
+  width: 100%;
+  padding: 13px;
+  background: var(--db-accent);
+  color: #fff;
+  border: none;
+  border-radius: 12px;
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  transition:
+    background 150ms ease,
+    transform   150ms ease,
+    box-shadow  150ms ease;
+  box-shadow: 0 4px 16px rgba(59, 130, 246, 0.3);
+  margin-top: 4px;
+}
+
+.fa-submit:hover:not(:disabled) {
+  background: var(--db-accent-dim);
+  transform: translateY(-1px);
+  box-shadow: 0 6px 20px rgba(59, 130, 246, 0.45);
+}
+
+.fa-submit:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+/* Inline spinner */
+.fa-spinner {
+  display: inline-block;
+  width: 16px;
+  height: 16px;
+  border: 2px solid rgba(255,255,255,0.3);
+  border-top-color: #fff;
+  border-radius: 50%;
+  animation: fa-spin 0.7s linear infinite;
+}
+
+@keyframes fa-spin {
+  to { transform: rotate(360deg); }
+}
+
+/* ═══════════════════════════════════════════════════════════════════════════
+   RECOMMENDATION CARD
+   Slides up + fades in when result arrives.
+═══════════════════════════════════════════════════════════════════════════ */
+.fa-result {
+  background: var(--db-sidebar);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  border-radius: 16px;
+  padding: 28px 28px;
+
+  /* Signature entrance animation */
+  animation: fa-result-in 350ms cubic-bezier(0.16, 1, 0.3, 1) forwards;
+
+  box-shadow:
+    0 0 0 1px rgba(59, 130, 246, 0.06),
+    0 8px 32px rgba(0, 0, 0, 0.4);
+}
+
+@keyframes fa-result-in {
+  from {
+    opacity: 0;
+    transform: translateY(18px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+@media (max-width: 480px) {
+  .fa-result { padding: 20px 16px; }
+}
+
+.fa-result__eyebrow {
+  font-size: 0.7rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--db-accent);
+  margin-bottom: 10px;
+}
+
+.fa-result__name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: clamp(1.3rem, 3vw, 1.7rem);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--db-text-hi);
+  line-height: 1.2;
+  margin-bottom: 14px;
+}
+
+/* ── Badges row ───────────────────────────────────────────────────────────── */
+.fa-result__badges {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  margin-bottom: 18px;
+}
+
+.fa-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 4px 12px;
+  border-radius: 999px;
+  font-size: 0.78rem;
+  font-weight: 600;
+  border: 1px solid transparent;
+}
+
+/* Colour variants */
+.badge--green {
+  background: rgba(34, 197, 94, 0.1);
+  border-color: rgba(34, 197, 94, 0.3);
+  color: #86EFAC;
+}
+
+.badge--blue {
+  background: rgba(59, 130, 246, 0.1);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: #93C5FD;
+}
+
+.badge--orange {
+  background: rgba(249, 115, 22, 0.1);
+  border-color: rgba(249, 115, 22, 0.3);
+  color: #FDBA74;
+}
+
+.badge--red {
+  background: rgba(239, 68, 68, 0.1);
+  border-color: rgba(239, 68, 68, 0.3);
+  color: #FCA5A5;
+}
+
+.badge--cost {
+  background: rgba(234, 179, 8, 0.1);
+  border-color: rgba(234, 179, 8, 0.3);
+  color: #FDE047;
+}
+
+.badge--protein {
+  background: rgba(168, 85, 247, 0.1);
+  border-color: rgba(168, 85, 247, 0.3);
+  color: #D8B4FE;
+}
+
+/* ── Reason text ──────────────────────────────────────────────────────────── */
+.fa-result__reason {
+  font-size: 0.9rem;
+  color: var(--db-text-lo);
+  line-height: 1.65;
+  margin-bottom: 16px;
+}
+
+/* ── Tip box ──────────────────────────────────────────────────────────────── */
+.fa-result__tip {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  background: rgba(59, 130, 246, 0.07);
+  border: 1px solid rgba(59, 130, 246, 0.18);
+  border-radius: 10px;
+  padding: 12px 14px;
+  margin-bottom: 20px;
+}
+
+.fa-result__tip-icon {
+  font-size: 1rem;
+  flex-shrink: 0;
+  margin-top: 1px;
+}
+
+.fa-result__tip p {
+  font-size: 0.875rem;
+  color: var(--db-text-hi);
+  line-height: 1.55;
+}
+
+/* ── Raw fallback ─────────────────────────────────────────────────────────── */
+.fa-result__raw {
+  font-family: 'Inter', monospace;
+  font-size: 0.85rem;
+  color: var(--db-text-lo);
+  white-space: pre-wrap;
+  background: var(--db-bg);
+  border-radius: 8px;
+  padding: 12px;
+  margin-bottom: 16px;
+}
+
+/* ── Ask for alternatives button ──────────────────────────────────────────── */
+.fa-alt-btn {
+  width: 100%;
+  padding: 11px;
+  background: transparent;
+  border: 1px solid var(--db-border);
+  border-radius: 10px;
+  font-family: 'Inter', sans-serif;
+  font-size: 0.875rem;
+  font-weight: 500;
+  color: var(--db-text-lo);
+  cursor: pointer;
+  transition:
+    background 150ms ease,
+    border-color 150ms ease,
+    color 150ms ease;
+}
+
+.fa-alt-btn:hover {
+  background: var(--db-card-hover);
+  border-color: rgba(59, 130, 246, 0.3);
+  color: var(--db-text-hi);
+}
+
+/* ── Reduced motion ───────────────────────────────────────────────────────── */
+@media (prefers-reduced-motion: reduce) {
+  .fa-result,
+  .fa-field--indent,
+  .fa-hunger-card,
+  .fa-submit,
+  .fa-spinner {
+    animation: none;
+    transition: none;
+  }
+}
