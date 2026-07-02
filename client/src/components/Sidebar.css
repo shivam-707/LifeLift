@@ -1,0 +1,403 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   PeakMode — Sidebar.css
+   ────────────────────────
+   Tokens:
+     --sb-bg       : #1E293B   sidebar surface
+     --sb-accent   : #3B82F6   active link + glow
+     --sb-w        : 240px     sidebar width
+     --sb-text-hi  : #F1F5F9   primary text
+     --sb-text-lo  : #94A3B8   muted / inactive
+     --sb-text-mute: #475569   placeholder / email
+     --sb-border   : rgba(255,255,255,0.07)
+
+   Active-link signature:
+     3px left border  +  icon turns blue  +  a radial glow pseudo-element
+     that bleeds softly to the right. The glow is the upgrade over Step 1.
+═══════════════════════════════════════════════════════════════════════════ */
+
+/* ── Tokens scoped to the sidebar ────────────────────────────────────────── */
+.sb,
+.sb__overlay,
+.sb__trigger {
+  --sb-bg:        #1E293B;
+  --sb-accent:    #3B82F6;
+  --sb-accent-15: rgba(59, 130, 246, 0.15);
+  --sb-accent-08: rgba(59, 130, 246, 0.08);
+  --sb-w:         240px;
+  --sb-text-hi:   #F1F5F9;
+  --sb-text-lo:   #94A3B8;
+  --sb-text-mute: #475569;
+  --sb-border:    rgba(255, 255, 255, 0.07);
+  --sb-radius:    9px;
+  --sb-speed:     180ms;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   SIDEBAR SHELLS
+═══════════════════════════════════════════════════════════════════ */
+
+/* Shared base */
+.sb {
+  width: var(--sb-w);
+  background: var(--sb-bg);
+  border-right: 1px solid var(--sb-border);
+  flex-shrink: 0;
+}
+
+/* Desktop: sticky column */
+.sb--desktop {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none; /* Firefox */
+}
+.sb--desktop::-webkit-scrollbar { display: none; }
+
+/* Mobile: hidden off-screen, slides in */
+.sb--mobile {
+  display: none;
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   INNER LAYOUT
+═══════════════════════════════════════════════════════════════════ */
+.sb__inner {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh; /* so footer sticks to bottom even when nav is short */
+}
+
+/* ── Brand ────────────────────────────────────────────────────────── */
+.sb__brand {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 22px 20px 18px;
+  border-bottom: 1px solid var(--sb-border);
+  flex-shrink: 0;
+}
+
+.sb__brand-icon {
+  font-size: 1.25rem;
+  line-height: 1;
+  filter: drop-shadow(0 0 7px rgba(59, 130, 246, 0.6));
+}
+
+.sb__brand-name {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 1.05rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--sb-text-hi);
+}
+
+/* ── Nav ──────────────────────────────────────────────────────────── */
+.sb__nav {
+  flex: 1;
+  padding: 10px 0;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: none;
+}
+.sb__nav::-webkit-scrollbar { display: none; }
+
+.sb__nav-list {
+  list-style: none;
+  margin: 0;
+  padding: 0 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+/* ── Section grouping ──────────────────────────────────────────────── */
+.sb__section {
+  margin-bottom: 14px;
+}
+.sb__section:first-child {
+  margin-bottom: 8px;
+}
+
+.sb__section-title {
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--sb-text-mute);
+  padding: 0 20px;
+  margin: 0 0 6px;
+}
+
+/* ── Nav link ─────────────────────────────────────────────────────── */
+.sb__link {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: 11px;
+  padding: 9px 14px 9px 17px; /* 17px = 20px − 3px for left border */
+  border-radius: 0 var(--sb-radius) var(--sb-radius) 0;
+  border-left: 3px solid transparent;
+
+  color: var(--sb-text-lo);
+  font-size: 0.875rem;
+  font-weight: 500;
+  text-decoration: none;
+  white-space: nowrap;
+  overflow: hidden;
+
+  transition:
+    color            var(--sb-speed) ease,
+    background       var(--sb-speed) ease,
+    border-left-color var(--sb-speed) ease;
+}
+
+/* Hover */
+.sb__link:hover {
+  color: var(--sb-text-hi);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+/* ── ACTIVE state ─────────────────────────────────────────────────── */
+.sb__link--active {
+  color: var(--sb-text-hi);
+  border-left-color: var(--sb-accent);
+  background: var(--sb-accent-08);
+}
+
+/* Icon turns accent blue when active */
+.sb__link--active .sb__link-icon {
+  color: var(--sb-accent);
+  filter: drop-shadow(0 0 4px rgba(59, 130, 246, 0.45));
+}
+
+/* The glow pseudo-element: a radial light centred on the left edge,
+   visible only on the active link                                   */
+.sb__link-glow {
+  position: absolute;
+  inset: 0;
+  left: 0;
+  pointer-events: none;
+  opacity: 0;
+  background: radial-gradient(
+    ellipse 80px 36px at 0% 50%,
+    rgba(59, 130, 246, 0.18) 0%,
+    transparent 100%
+  );
+  border-radius: inherit;
+  transition: opacity var(--sb-speed) ease;
+}
+
+.sb__link--active .sb__link-glow {
+  opacity: 1;
+}
+
+/* Icon wrapper */
+.sb__link-icon {
+  width: 17px;
+  height: 17px;
+  flex-shrink: 0;
+  color: var(--sb-text-lo);
+  transition:
+    color  var(--sb-speed) ease,
+    filter var(--sb-speed) ease;
+}
+.sb__link-icon svg {
+  width: 100%;
+  height: 100%;
+  display: block;
+}
+
+/* Hover icon brightens slightly */
+.sb__link:hover .sb__link-icon {
+  color: var(--sb-text-hi);
+}
+
+/* ── Footer ───────────────────────────────────────────────────────── */
+.sb__footer {
+  padding: 12px;
+  border-top: 1px solid var(--sb-border);
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-shrink: 0;
+}
+
+.sb__user {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  flex: 1;
+  min-width: 0;
+}
+
+/* Gradient avatar circle */
+.sb__avatar {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, var(--sb-accent) 0%, #7C3AED 100%);
+  color: #fff;
+  font-family: 'Space Grotesk', sans-serif;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  box-shadow: 0 0 10px rgba(59, 130, 246, 0.25);
+}
+
+.sb__user-info {
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+}
+
+.sb__user-name {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--sb-text-hi);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.sb__edit-profile-link {
+  font-size: 0.68rem;
+  color: var(--sb-accent);
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-decoration: none;
+  opacity: 0.75;
+  transition: opacity var(--sb-speed) ease;
+}
+.sb__edit-profile-link:hover {
+  opacity: 1;
+  text-decoration: underline;
+}
+
+/* Logout icon button */
+.sb__logout {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 7px;
+  color: var(--sb-text-mute);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+  transition:
+    color       var(--sb-speed) ease,
+    background  var(--sb-speed) ease;
+}
+.sb__logout:hover {
+  color: #FCA5A5;
+  background: rgba(239, 68, 68, 0.1);
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   HAMBURGER TRIGGER  (rendered in topbar via <Sidebar.Trigger />)
+═══════════════════════════════════════════════════════════════════ */
+.sb__trigger {
+  background: transparent;
+  border: none;
+  padding: 6px;
+  border-radius: 7px;
+  color: var(--sb-text-lo);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  transition: color var(--sb-speed) ease;
+}
+.sb__trigger:hover { color: var(--sb-text-hi); }
+
+/* Three-line icon */
+.sb__hamburger {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 5px;
+  width: 20px;
+  height: 20px;
+}
+
+.sb__hamburger span {
+  display: block;
+  height: 2px;
+  border-radius: 2px;
+  background: currentColor;
+  transform-origin: center;
+  transition:
+    transform var(--sb-speed) ease,
+    opacity   var(--sb-speed) ease;
+}
+
+/* Morph to × */
+.sb__hamburger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+.sb__hamburger--open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.sb__hamburger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+
+/* ═══════════════════════════════════════════════════════════════════
+   BACKDROP OVERLAY (mobile only)
+═══════════════════════════════════════════════════════════════════ */
+.sb__overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(3px);
+  -webkit-backdrop-filter: blur(3px);
+  animation: sb-fade-in 200ms ease forwards;
+}
+
+@keyframes sb-fade-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   MOBILE  ≤ 768px
+═══════════════════════════════════════════════════════════════════ */
+@media (max-width: 768px) {
+  .sb--desktop { display: none; }
+
+  .sb--mobile {
+    display: flex;
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100%;
+    z-index: 300;
+    transform: translateX(-100%);
+    transition: transform 260ms cubic-bezier(0.4, 0, 0.2, 1);
+    box-shadow: none;
+    overflow-y: auto;
+  }
+
+  .sb--open {
+    transform: translateX(0);
+    box-shadow: 6px 0 40px rgba(0, 0, 0, 0.55);
+  }
+}
+
+/* ═══════════════════════════════════════════════════════════════════
+   REDUCED MOTION
+═══════════════════════════════════════════════════════════════════ */
+@media (prefers-reduced-motion: reduce) {
+  .sb__link,
+  .sb__link-icon,
+  .sb__link-glow,
+  .sb__hamburger span,
+  .sb--mobile,
+  .sb__overlay {
+    transition: none;
+    animation: none;
+  }
+}
