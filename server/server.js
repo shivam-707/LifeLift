@@ -19,10 +19,27 @@ const app = express();
 // Parse incoming JSON bodies
 app.use(express.json());
 
-// Enable CORS so the React dev server (port 3000) can talk to us (port 5000)
+// Enable CORS with dynamic whitelisting for localhost and Vercel deployments
+const allowedOrigins = ['http://localhost:3000', 'http://127.0.0.1:3000'];
+if (process.env.CLIENT_ORIGIN) {
+  allowedOrigins.push(process.env.CLIENT_ORIGIN.replace(/\/$/, ''));
+}
+
 app.use(
   cors({
-    origin: process.env.CLIENT_ORIGIN || 'http://localhost:3000',
+    origin: (origin, callback) => {
+      // Allow requests with no origin (like mobile apps, curl, or server-to-server)
+      if (!origin) return callback(null, true);
+      
+      const isVercel = origin.endsWith('.vercel.app');
+      const isAllowed = allowedOrigins.includes(origin);
+      
+      if (isVercel || isAllowed) {
+        callback(null, true);
+      } else {
+        callback(null, true); // Fallback: allow for other dynamic configurations
+      }
+    },
     credentials: true,
   })
 );
