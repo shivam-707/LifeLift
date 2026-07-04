@@ -28,7 +28,7 @@ const DailySchedule  = require('../models/DailySchedule');
 const router = express.Router();
 
 const SYSTEM_PROMPT =
-  "You are PeakMode's Schedule Optimizer for a hostel college student " +
+  "You are LifeLift's Schedule Optimizer for a hostel college student " +
   "balancing gym, studies, and sleep for muscle recovery. Given their " +
   "college hours, gym duration, available study hours, wake time and " +
   "sleep target, create a realistic daily time-table for ONE typical day. " +

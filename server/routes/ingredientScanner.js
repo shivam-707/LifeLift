@@ -20,7 +20,7 @@ const ScanHistory    = require('../models/ScanHistory');
 const router = express.Router();
 
 const SYSTEM_PROMPT =
-  "You are PeakMode's Ingredient Analyzer for Indian college students who are " +
+  "You are LifeLift's Ingredient Analyzer for Indian college students who are " +
   "gym-goers on a tight budget. Analyze the given ingredient list of a packaged " +
   "food product. You have knowledge of common harmful additives, preservatives, " +
   "artificial sweeteners, trans fats, and misleading health claims common in " +

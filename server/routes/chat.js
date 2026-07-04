@@ -17,7 +17,7 @@ const { askClaude } = require('../services/claudeService');
 const router = express.Router();
 
 const SYSTEM_PROMPT =
-  'You are PeakMode AI, a smart lifestyle assistant for college hostel students ' +
+  'You are LifeLift AI, a smart lifestyle assistant for college hostel students ' +
   'in India. You help with gym workout planning, academic scheduling, sleep ' +
   'optimization, budget food decisions in Indian Rupees, and ingredient analysis. ' +
   'Be concise, friendly, and practical.';
@@ -67,7 +67,7 @@ router.post('/', protect, async (req, res) => {
     }
     return res.status(500).json({
       success: false,
-      message: 'Failed to get a response from PeakMode AI',
+      message: 'Failed to get a response from LifeLift AI',
     });
   }
 });

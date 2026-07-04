@@ -27,7 +27,7 @@ const foodOptions    = require('../data/foodOptions');
 const router = express.Router();
 
 const SYSTEM_PROMPT =
-  "You are PeakMode's Food Advisor for Indian hostel students. " +
+  "You are LifeLift's Food Advisor for Indian hostel students. " +
   "You have deep knowledge of Indian college hostel food culture — " +
   "mess food, canteen items, Blinkit orders, Dominos, KFC, local " +
   "dhabas. Recommend the single best food option based on the " +
