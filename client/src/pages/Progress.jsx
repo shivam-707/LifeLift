@@ -74,7 +74,7 @@ const Progress = () => {
         {/* Mobile topbar */}
         <header className="topbar">
           <Sidebar.Trigger />
-          <span className="topbar__brand"><span aria-hidden="true">⚡</span> PeakMode</span>
+          <span className="topbar__brand"><span aria-hidden="true">⚡</span> LifeLift</span>
           <button className="topbar__logout" onClick={logout} aria-label="Sign out">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"
               strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"

@@ -22,7 +22,7 @@ const PrivateRoute = ({ children, allowProfileComplete = false }) => {
     return (
       <div className="spinner-overlay">
         <div className="spinner" aria-label="Loading…" />
-        <p className="spinner-text">Loading PeakMode…</p>
+        <p className="spinner-text">Loading LifeLift…</p>
       </div>
     );
   }
